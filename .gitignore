@@ -1,0 +1,4 @@
+.scion/agents/
+bin/
+*.test
+*.out

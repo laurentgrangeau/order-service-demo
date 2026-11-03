@@ -1,0 +1,62 @@
+syntax = "proto3";
+
+package order.v2;
+
+option go_package = "github.com/laurentgrangeau/conf-scion/demo/order-service/internal/api;api";
+
+// OrderStatus represents the lifecycle state of an order.
+enum OrderStatus {
+  ORDER_STATUS_UNSPECIFIED = 0;
+  ORDER_STATUS_PENDING     = 1;
+  ORDER_STATUS_CONFIRMED   = 2;
+  ORDER_STATUS_CANCELLED   = 3;
+}
+
+// LineItem represents a single SKU and quantity in an order.
+message LineItem {
+  string sku        = 1;
+  int32  quantity   = 2;
+  int64  unit_cents = 3;
+}
+
+// Order represents a customer order record.
+message Order {
+  string            id          = 1;
+  string            customer_id = 2;
+  repeated LineItem items       = 3;
+  int64             total_cents = 4;
+  OrderStatus       status      = 5;
+}
+
+message CreateOrderRequest {
+  string            customer_id = 1;
+  repeated LineItem items       = 2;
+}
+
+message CreateOrderResponse {
+  Order order = 1;
+}
+
+message GetOrderRequest {
+  string id = 1;
+}
+
+message GetOrderResponse {
+  Order order = 1;
+}
+
+message CancelOrderRequest {
+  string id     = 1;
+  string reason = 2;
+}
+
+message CancelOrderResponse {
+  Order order = 1;
+}
+
+// TODO(v2.4): Complete OrderService v2 RPC definitions and implement handlers in internal/api/grpc_server.go.
+service OrderService {
+  rpc CreateOrder(CreateOrderRequest) returns (CreateOrderResponse);
+  rpc GetOrder(GetOrderRequest) returns (GetOrderResponse);
+  rpc CancelOrder(CancelOrderRequest) returns (CancelOrderResponse);
+}

@@ -1,0 +1,9 @@
+schema_version: "1"
+default_harness_config: antigravity
+model: gemini-3.1-pro
+thinking_level: 80
+system_prompt: system-prompt.md
+agent_instructions: agents.md
+max_turns: 40
+max_model_calls: 100
+max_duration: "30m"

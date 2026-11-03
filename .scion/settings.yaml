@@ -1,0 +1,31 @@
+# .scion/settings.yaml — Runtime & Profile configuration for order-service
+schema_version: "1"
+active_profile: local
+
+runtimes:
+  local-docker:
+    type: docker
+  gke-autopilot-ha:
+    type: kubernetes
+    namespace: scion-hub-payments
+    service_account: scion-agent-wi-sa
+
+profiles:
+  local:
+    runtime: local-docker
+    resources:
+      requests:
+        cpu: "1"
+        memory: "2Gi"
+      limits:
+        cpu: "2"
+        memory: "4Gi"
+  gcp-ha:
+    runtime: gke-autopilot-ha
+    resources:
+      requests:
+        cpu: "2"
+        memory: "4Gi"
+      limits:
+        cpu: "4"
+        memory: "8Gi"
