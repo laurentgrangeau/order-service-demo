@@ -10,8 +10,8 @@ Before the Scion task force runs, `order-service` has 3 intentional release bloc
 | --- | --- | --- | --- | --- |
 | `lead-mgr` | `manager` | `antigravity` | `scion/release-v2.4` branch | Orchestrates workers, verifies tests, and rebases/merges branches |
 | `sec-patch` | `sec-auditor` | `antigravity` | `internal/checkout/repo.go`<br>`internal/middleware/ratelimit.go` | 1. Raw `fmt.Sprintf` SQL injection in `FindByCustomer` & `CreateOrder`<br>2. Pass-through stub in `RateLimiter.Allow` |
-| `grpc-mig` | `backend-go` | `gemini` | `proto/order/v2/order.proto`<br>`internal/api/grpc_server.go` | `OrderV2Server` RPC methods return `ErrUnimplementedRPC` |
-| `qa-chaos` | `qa-engineer` | `gemini` | `internal/checkout/race_test.go` | Missing concurrent stress & inventory-conservation `go test -race` suite |
+| `grpc-mig` | `backend-go` | `gemini-cli` | `proto/order/v2/order.proto`<br>`internal/api/grpc_server.go` | `OrderV2Server` RPC methods return `ErrUnimplementedRPC` |
+| `qa-chaos` | `qa-engineer` | `gemini-cli` | `internal/checkout/race_test.go` | Missing concurrent stress & inventory-conservation `go test -race` suite |
 
 ---
 
@@ -31,8 +31,8 @@ scion templates list
 # 3. Dispatch the 4-agent Task Force using the 'local' profile
 scion start lead-mgr  "Coordinate v2.4 release sprint"                  --type manager     --harness-config antigravity --profile local
 scion start sec-patch "Fix SQLi in checkout & add rate limit"           --type sec-auditor --harness-config antigravity --profile local
-scion start grpc-mig  "Migrate REST order handlers to gRPC v2"          --type backend-go  --harness-config gemini      --profile local
-scion start qa-chaos  "Write go test -race concurrency suite"           --type qa-engineer --harness-config gemini      --profile local
+scion start grpc-mig  "Migrate REST order handlers to gRPC v2"          --type backend-go  --harness-config gemini-cli  --profile local
+scion start qa-chaos  "Write go test -race concurrency suite"           --type qa-engineer --harness-config gemini-cli  --profile local
 ```
 
 ### Option B: GCP High Availability (HA) Hub Mode
@@ -50,8 +50,8 @@ scion hub brokers list
 # 2. Dispatch the 4-agent Task Force on GKE Autopilot using '--profile gcp-ha'
 scion start lead-mgr  "Coordinate v2.4 release sprint"                  --type manager     --harness-config antigravity --profile gcp-ha
 scion start sec-patch "Fix SQLi in checkout & add rate limit"           --type sec-auditor --harness-config antigravity --profile gcp-ha
-scion start grpc-mig  "Migrate REST order handlers to gRPC v2"          --type backend-go  --harness-config gemini      --profile gcp-ha
-scion start qa-chaos  "Write go test -race concurrency suite"           --type qa-engineer --harness-config gemini      --profile gcp-ha
+scion start grpc-mig  "Migrate REST order handlers to gRPC v2"          --type backend-go  --harness-config gemini-cli  --profile gcp-ha
+scion start qa-chaos  "Write go test -race concurrency suite"           --type qa-engineer --harness-config gemini-cli  --profile gcp-ha
 ```
 
 ---

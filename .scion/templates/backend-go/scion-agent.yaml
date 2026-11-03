@@ -1,5 +1,5 @@
 schema_version: "1"
-default_harness_config: gemini
+default_harness_config: gemini-cli
 model: gemini-3.1-pro
 thinking_level: 60
 system_prompt: system-prompt.md
